@@ -21,7 +21,7 @@
 | `TSK-104` | Format & compile Stage 0 & 1 LaTeX Proposal (`Stage0_1_Report.tex`) | `DOC-01` | Asif | Galib | 🟢 `[DONE]` |
 | `TSK-105` | Design field survey forms for conductors (5 entries) & commuters (10) | `DOC-03` | Galib | Asif | 🟢 `[DONE]` |
 | `TSK-106` | Export printable `.pdf` and `.docx` survey questionnaires | `DOC-03` | Galib | Asif | 🟢 `[DONE]` |
-| `TSK-107` | Conduct field visits, take ticket photo artifacts, log field diary | `DOC-04` | Asif & Galib | Both | 🔵 `[IN PROGRESS]` |
+| `TSK-107` | Conduct field visits, take ticket photo artifacts, log field diary | `DOC-04` | Asif & Galib | Both | 🔵 `[IN PROGRESS]` *(Photos/feedback forms to be uploaded)* |
 
 ---
 
@@ -29,12 +29,12 @@
 
 | Task ID | Task Description | Req ID | Primary Owner | Reviewer / Auditor | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `TSK-201` | Synthesize field survey responses into key user pain points | `SRS-01` | Galib | Asif | 🟡 `[TODO]` |
-| `TSK-202` | Draft Functional Requirements list (`FR-01` to `FR-12`) | `FR-ALL` | Asif | Galib | 🟡 `[TODO]` |
-| `TSK-203` | Draft Non-Functional Requirements (`NFR-01` to `NFR-06`) | `NFR-ALL` | Galib | Asif | 🟡 `[TODO]` |
-| `TSK-204` | Apply MoSCoW prioritization (Must, Should, Could, Won't) | `SRS-02` | Asif | Galib | 🟡 `[TODO]` |
-| `TSK-205` | Draw Use Case Diagram & User Stories with acceptance criteria | `SRS-03` | Galib | Asif | 🟡 `[TODO]` |
-| `TSK-206` | Compile IEEE-style SRS document draft for instructor review | `SRS-DOC` | Asif | Galib | 🟡 `[TODO]` |
+| `TSK-201` | Synthesize field survey responses into key user pain points | `SRS-01` | Galib | Asif | 🟢 `[DONE]` *(In `docs/SRS.md` §2.1)* |
+| `TSK-202` | Draft Functional Requirements list (`FR-01` to `FR-12`) | `FR-ALL` | Asif | Galib | 🟢 `[DONE]` *(In `docs/SRS.md` §3.1)* |
+| `TSK-203` | Draft Non-Functional Requirements (`NFR-01` to `NFR-06`) | `NFR-ALL` | Galib | Asif | 🟢 `[DONE]` *(In `docs/SRS.md` §3.2)* |
+| `TSK-204` | Apply MoSCoW prioritization (Must, Should, Could, Won't) | `SRS-02` | Asif | Galib | 🟢 `[DONE]` *(In `docs/SRS.md` §4)* |
+| `TSK-205` | Draw Use Case Diagram & User Stories with acceptance criteria | `SRS-03` | Galib | Asif | 🟢 `[DONE]` *(In `docs/SRS.md` §5 & §6)* |
+| `TSK-206` | Compile IEEE-style SRS document draft for instructor review | `SRS-DOC` | Asif | Galib | 🟢 `[DONE]` *(In `docs/SRS.md` & `docs/SRS.tex`)* |
 
 ---
 

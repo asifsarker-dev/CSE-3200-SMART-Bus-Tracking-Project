@@ -1,0 +1,182 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{setspace}
+\usepackage{enumitem}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+\title{\textbf{Software Requirements Specification (SRS)} \\ \Large Smart Public Bus E-Ticketing \& Passenger Counting System \\ \normalsize Compliant with IEEE Std 830-1998 / ISO/IEC/IEEE 29148:2018}
+\author{\textbf{Course:} CSE 3200 — System Development Project \\
+\textbf{Institution:} Rajshahi University of Engineering \& Technology (RUET) \\
+\textbf{Department:} Computer Science \& Engineering (CSE) \\[0.5cm]
+\textbf{Development Team:} \\
+Md Asif Sarker (Roll: 2203131) — Lead Builder \& System Architect \\
+Wahid Galib (Roll: 2203121) — Quality Auditor \& Co-Developer}
+\date{November 2026 --- Version 1.0.0}
+
+\begin{document}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\subsection{Purpose}
+This Software Requirements Specification (SRS) document details the complete functional and non-functional requirements for the \textbf{Smart Public Bus E-Ticketing \& Passenger Counting System}. It establishes the baseline for mobile application development (React Native / Expo), backend API construction (Node.js / Express / MongoDB), sensor count simulation, and verification matrices for the CSE 3200 academic project.
+
+\subsection{Document Conventions}
+\begin{itemize}[noitemsep]
+    \item \textbf{FR-xx}: Functional Requirement identifier.
+    \item \textbf{NFR-xx}: Non-Functional Requirement identifier.
+    \item \textbf{UC-xx}: Use Case identifier.
+    \item \textbf{US-xx}: User Story identifier.
+    \item Priorities follow the \textbf{MoSCoW} standard: Must Have (M), Should Have (S), Could Have (C), Won't Have (W).
+\end{itemize}
+
+\subsection{Intended Audience}
+\begin{itemize}[noitemsep]
+    \item \textbf{Course Instructors \& Supervisors:} For academic progress evaluation and rubric verification.
+    \item \textbf{Project Team (Asif Sarker \& Wahid Galib):} For sprint tracking and collaborative development.
+    \item \textbf{Autonomous AI Agents:} For automated unit testing, static code analysis, and implementation audits.
+\end{itemize}
+
+\subsection{Project Scope}
+The system modernizes local public bus operations by eliminating manual paper tickets and unrecorded cash transactions. It consists of:
+\begin{enumerate}[noitemsep]
+    \item A mobile application for bus conductors facilitating rapid distance-based fare calculation, single-tap ticket issuance, and offline transaction caching.
+    \item A passenger interface for on-screen digital tickets, QR verification, and real-time crowd level visibility.
+    \item An automated passenger counting simulation engine modeling bus door sensor crossings without physical hardware costs.
+    \item An administrative analytics engine providing operators with revenue reconciliation and leakage audit trails.
+\end{enumerate}
+
+\section{Overall Description}
+
+\subsection{Product Perspective}
+Traditional local public transit relies on manual cash handling and paper ticket rolls. Field surveys reveal that conductors face high stress counting loose change on crowded, moving buses, leading to frequent passenger disputes and revenue leakage of 15--25\%. Existing solutions such as \textit{bdtickets}, \textit{Shohoz}, and \textit{Akota} are built exclusively for intercity coach travel with advance seat bookings, leaving intra-city transit completely unaddressed.
+
+\subsection{User Classes and Characteristics}
+\begin{itemize}
+    \item \textbf{Bus Conductor (Primary Operator):} Needs an ergonomic, high-contrast mobile interface with fast tap sequences ($< 1.5$ seconds) and resilient offline caching in poor signal environments.
+    \item \textbf{Daily Commuter (End User):} Requires instantaneous digital ticket receipts with scannable QR proof and route crowd density insight.
+    \item \textbf{Fleet Owner / Authority (Admin):} Needs auditable reports comparing ticket sales against sensor counts to detect cash skimming and optimize fleet schedules.
+\end{itemize}
+
+\subsection{Operating Environment}
+\begin{itemize}[noitemsep]
+    \item \textbf{Mobile Client:} Android 8.0+ and iOS 14.0+ via React Native / Expo SDK 51+.
+    \item \textbf{Backend Server:} Node.js (v18.x / v20.x LTS) with Express REST framework.
+    \item \textbf{Database:} MongoDB (v6.0+) for document-oriented trip and ticket storage.
+\end{itemize}
+
+\subsection{Design and Implementation Constraints}
+\begin{itemize}[noitemsep]
+    \item \textbf{Software Only Requirement:} The primary academic deliverable must be a software application; hosted static websites are strictly rejected per course rules.
+    \item \textbf{Hardware Sensor Abstraction:} Physical infrared/optical counters are emulated through a realistic simulation engine and REST test harness.
+\end{itemize}
+
+\section{Specific Requirements}
+
+\subsection{Functional Requirements (FR)}
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{@{}l p{4.5cm} X l@{}}
+\toprule
+\textbf{ID} & \textbf{Title} & \textbf{Description / Processing} & \textbf{Priority} \\
+\midrule
+\textbf{FR-01} & Conductor Authentication & Authenticate conductor via PIN/JWT and bind session to active Bus and Route ID. & Must Have \\
+\textbf{FR-02} & Distance-Based Fare Calculation & Calculate dynamic fare from boarding to destination stop using distance rate matrix. & Must Have \\
+\textbf{FR-03} & Rapid Digital Ticket Issuance & Generate signed Ticket UUID and display high-contrast dynamic QR receipt $< 1.5$s. & Must Have \\
+\textbf{FR-04} & On-Board Ticket Verification & Inspect and validate QR code against active trip ID to prevent reuse. & Should Have \\
+\textbf{FR-05} & Mobile Offline Ticket Caching & Persist tickets to local device storage when network disconnects without UI lag. & Must Have \\
+\textbf{FR-06} & Background Synchronization & Idempotently push cached offline tickets to backend upon network reconnection. & Must Have \\
+\textbf{FR-07} & Simulated Passenger Counting & Ingest simulated boarding/alighting sensor event streams at virtual stops. & Must Have \\
+\textbf{FR-08} & Real-Time Occupancy Engine & Calculate passenger occupancy percentage and categorize crowd tier (Seats/Standing/Full). & Must Have \\
+\textbf{FR-09} & Commuter Live Route View & Display active buses, arrival estimates, and crowd density to waiting commuters. & Should Have \\
+\textbf{FR-10} & Conductor Shift Settlement & Generate aggregated financial summary and ticket breakdown at conclusion of shift. & Must Have \\
+\textbf{FR-11} & Fleet Revenue Leakage Audit & Compare sensor passenger counts vs ticket counts to flag revenue discrepancy: $\Delta = N_{\text{sensor}} - N_{\text{ticketed}}$. & Should Have \\
+\textbf{FR-12} & Simulation Controller UI & Control panel to inject sensor anomalies and emulate peak traffic conditions. & Could Have \\
+\bottomrule
+\end{tabularx}
+\caption{System Functional Requirements}
+\end{table}
+
+\subsection{Non-Functional Requirements (NFR)}
+\begin{itemize}
+    \item \textbf{NFR-01 (Performance):} Mobile ticket generation must complete in $\le 1.5$s online, and $\le 200$ms in offline cache mode. REST API occupancy queries must resolve in $< 500$ms ($p95$).
+    \item \textbf{NFR-02 (Fault Tolerance):} Device must withstand connection drops with zero ticket loss. Sync reconciliation must be fully idempotent.
+    \item \textbf{NFR-03 (Security):} HTTPS transport, JWT session authorization, bcrypt password hashing, and HMAC-SHA256 digital ticket verification.
+    \item \textbf{NFR-04 (Ergonomics \& Usability):} Touch targets $\ge 48 \times 48\text{ px}$, high-contrast UI (WCAG 2.1 AA $\ge 4.5:1$), and single-hand thumb navigation.
+    \item \textbf{NFR-05 (Maintainability):} Clean modular structure with 100\% requirement-to-test traceability.
+    \item \textbf{NFR-06 (Portability):} Cross-platform Android and iOS execution via Expo without native modifications.
+\end{itemize}
+
+\section{System Use Cases}
+
+\subsection{Use Case UC-02: Rapid E-Ticket Issuance}
+\begin{itemize}[noitemsep]
+    \item \textbf{Primary Actor:} Bus Conductor.
+    \item \textbf{Precondition:} Conductor authenticated with active shift bound to Bus ID.
+    \item \textbf{Main Flow:}
+    \begin{enumerate}[noitemsep]
+        \item Conductor taps destination stop on mobile route layout.
+        \item System computes fare via distance matrix (FR-02).
+        \item Conductor taps ``Confirm \& Issue''.
+        \item System generates signed Ticket UUID and displays digital QR receipt (FR-03).
+        \item Shift revenue and passenger counter update automatically.
+    \end{enumerate}
+    \item \textbf{Alternative Flow (Offline):} If network is unavailable, ticket is assigned an offline deterministic UUID, saved to local storage (FR-05), and flagged with a ``Pending Sync'' badge without stalling the user.
+\end{itemize}
+
+\subsection{Use Case UC-07: Passenger Count Ingestion \& Occupancy}
+\begin{itemize}[noitemsep]
+    \item \textbf{Primary Actor:} Simulated Sensor Engine.
+    \item \textbf{Main Flow:} Sensor generates boarding/alighting event $\rightarrow$ API updates live passenger register $\rightarrow$ Occupancy rate recomputed $\rightarrow$ Commuter live route display reflects updated crowding density.
+\end{itemize}
+
+\section{Traceability Matrix Baseline}
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{@{}l X l l@{}}
+\toprule
+\textbf{Req ID} & \textbf{Requirement Title} & \textbf{Target Module} & \textbf{Owner} \\
+\midrule
+FR-01 & Conductor Authentication & \texttt{client/auth}, \texttt{server/auth} & Asif \\
+FR-02 & Distance Fare Calculation & \texttt{client/fare}, \texttt{server/fare} & Asif \\
+FR-03 & Rapid Ticket Issuance & \texttt{client/tickets}, \texttt{server/tickets} & Asif \\
+FR-04 & On-Board Verification & \texttt{client/verify}, \texttt{server/verify} & Galib \\
+FR-05 & Offline Ticket Caching & \texttt{client/storage} & Asif \\
+FR-06 & Background Sync Engine & \texttt{client/sync}, \texttt{server/sync} & Galib \\
+FR-07 & Simulated Sensor Counter & \texttt{simulation/sensorEngine} & Galib \\
+FR-08 & Real-Time Occupancy Engine & \texttt{server/occupancy} & Galib \\
+FR-09 & Commuter Live Route View & \texttt{client/commuter} & Asif \\
+FR-10 & Conductor Shift Settlement & \texttt{client/shift}, \texttt{server/shift} & Asif \\
+FR-11 & Fleet Revenue Leakage Audit & \texttt{server/reports}, \texttt{client/admin} & Galib \\
+FR-12 & Simulation Controller UI & \texttt{simulation/panel} & Galib \\
+\bottomrule
+\end{tabularx}
+\caption{Requirements Traceability Allocation}
+\end{table}
+
+\section{Sign-off \& Verification}
+\vspace{0.8cm}
+\noindent\textbf{Prepared by:} Md Asif Sarker (Roll: 2203131) \hfill \textbf{Date:} November 24, 2026 \\[0.8cm]
+\noindent\textbf{Audited by:} Wahid Galib (Roll: 2203121) \hfill \textbf{Date:} November 24, 2026 \\[0.8cm]
+\noindent\textbf{Supervisor Approval:} \underline{\hspace{7cm}} \hfill \textbf{Date:} \underline{\hspace{3cm}}
+
+\end{document}
